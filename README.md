@@ -77,4 +77,5 @@
     spring.rabbitmq.template.retry.multiplier=1: 应用于上一重试间隔的乘数
     spring.rabbitmq.template.retry.max-interval=10000: 最大重试时间间隔
 
+[swagger增强](http://localhost:9000/doc.html#/home)   
 如果对您有用记得帮忙点star, 3QU
