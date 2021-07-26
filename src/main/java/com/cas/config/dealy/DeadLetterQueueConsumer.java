@@ -13,6 +13,9 @@ import java.util.Date;
 import static com.cas.config.dealy.RabbitMQConfig.DEAD_LETTER_QUEUEA_NAME;
 import static com.cas.config.dealy.RabbitMQConfig.DEAD_LETTER_QUEUEB_NAME;
 
+/**
+ * @author xianglong
+ */
 @Component
 public class DeadLetterQueueConsumer {
     private static final Logger log = LoggerFactory.getLogger(DeadLetterQueueConsumer.class);

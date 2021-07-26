@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * author 延迟队列
+ */
 @Configuration
 public class RabbitMQConfig {
 
