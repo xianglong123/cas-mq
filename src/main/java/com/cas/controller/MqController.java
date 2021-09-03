@@ -1,5 +1,6 @@
 package com.cas.controller;
 
+import io.swagger.annotations.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,23 @@ import java.util.UUID;
  */
 @RequestMapping("/mq")
 @RestController
+@Api(value = "API - 测试controller")
+@ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successful — 请求已完成"),
+        @ApiResponse(code = 400, message = "请求中有语法问题，或不能满足请求"),
+        @ApiResponse(code = 401, message = "未授权客户机访问数据"),
+        @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
+        @ApiResponse(code = 500, message = "服务器不能完成请求")}
+)
 public class MqController {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @ApiOperation(value = "线程池任务超时中断")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "value", value = "以英文,分割数据", dataType = "string", paramType = "query", defaultValue = "5,6,7,2")
+    })
     @GetMapping("/sendDirectMessage")
     @ResponseBody
     public String sendDirectMessage() {
