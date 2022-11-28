@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @Author : JCccc
  * @CreateTime : 2019/9/4
  * @Description : 消费者用
+ * 消息接收确认
  **/
 @Configuration
 public class MessageListenerConfig {
@@ -28,10 +29,8 @@ public class MessageListenerConfig {
         // RabbitMQ默认是自动确认，这里改为手动确认消息
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         //设置一个队列
-//        container.setQueueNames("TestDirectQueue");
-        //如果同时设置多个如下： 前提是队列都是必须已经创建存在的
-//        container.setQueueNames("TestDirectQueue", "fanout.A");
-
+        container.setQueueNames("TestDirectQueue");
+        //如果同时设置多个如下： 前提是队列都是必须已经创建存在container.setQueueNames("TestDirectQueue", "fanout.A");
 
         //另一种设置队列的方法,如果使用这种情况,那么要设置多个,就使用addQueues
         //container.setQueues(new Queue("TestDirectQueue",true));

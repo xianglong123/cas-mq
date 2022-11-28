@@ -22,6 +22,7 @@ spring:
           enabled: true # 开启消费者进行重试
           max-attempts: 5 # 最大重试次数
           initial-interval: 3000 # 重试时间间隔
+
 debug: false
 
 
