@@ -27,6 +27,8 @@ dependencies {
     // swagger增强：knife4j
     implementation 'com.github.xiaoymin:knife4j-spring-boot-starter:3.0.3'
 
+    implementation 'com.alibaba:fastjson:1.2.61'
+
 }
 
 test {

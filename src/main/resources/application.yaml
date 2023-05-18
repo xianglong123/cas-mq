@@ -1,6 +1,8 @@
 server:
   port: 9000
 spring:
+  application:
+    name: cas-mq
   rabbitmq:
     host: 127.0.0.1 # 用户名
     port: 5672      # port
@@ -23,7 +25,9 @@ spring:
           max-attempts: 5 # 最大重试次数
           initial-interval: 3000 # 重试时间间隔
 
-
+dicp:
+  market:
+    syncQueue: true
 
 
 
