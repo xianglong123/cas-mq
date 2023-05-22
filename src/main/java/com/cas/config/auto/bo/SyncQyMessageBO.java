@@ -1,6 +1,6 @@
 package com.cas.config.auto.bo;
 
-public class SyncQyMessageBO implements SyncMessageBaseBO{
+public class SyncQyMessageBO extends SyncMessageBaseBO{
 
     private String id;
 
