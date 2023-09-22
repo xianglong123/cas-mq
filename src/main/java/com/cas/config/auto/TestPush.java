@@ -18,7 +18,7 @@ public class TestPush {
         SyncQyMessageBO bo = new SyncQyMessageBO();
         bo.setId("123");
         bo.setName("456");
-        testBusinessQueue.pushMessage(() -> JSONObject.toJSONString(bo));
+        testBusinessQueue.pushDelayMessage(() -> JSONObject.toJSONString(bo));
     }
 
 

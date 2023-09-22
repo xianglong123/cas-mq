@@ -19,4 +19,9 @@ public class TestBusinessQueue extends AbstractAutoInitQueueBeanFactory{
     public String getRoutingKeyName() {
         return "test";
     }
+
+    @Override
+    public Long getDelayTime() {
+        return 30000L;
+    }
 }
