@@ -14,10 +14,10 @@ public abstract class AbstractAutoInitQueueBeanFactory implements AutoInitQueueB
     private static final String MQ_QUEUE_DELAY = "-delay-";
     private static final String PARTITION = ".";
     private static final String TIME_UNIT = "s";
-    private static String QUEUE;
-    private static String DELAY_QUEUE;
     private static String EXCHANGE;
     private static String DELAY_EXCHANGE;
+    private static String ROUTINGKEY;
+    private static String DELAY_ROUTINGKEY;
 
     @Resource
     private ThreadPoolUtil threadPoolUtil;
@@ -27,7 +27,7 @@ public abstract class AbstractAutoInitQueueBeanFactory implements AutoInitQueueB
 
     @Override
     public void pushMessage(Supplier<Object> supplier) {
-        threadPoolUtil.execute(() -> rabbitTemplate.convertSendAndReceive(QUEUE, EXCHANGE, supplier.get()));
+        threadPoolUtil.execute(() -> rabbitTemplate.convertSendAndReceive(EXCHANGE, ROUTINGKEY, supplier.get()));
     }
 
     @Override
@@ -36,7 +36,7 @@ public abstract class AbstractAutoInitQueueBeanFactory implements AutoInitQueueB
             System.out.println("延迟队列未设置ttl，请设置ttl再调用");
             return ;
         }
-        threadPoolUtil.execute(() -> rabbitTemplate.convertSendAndReceive(DELAY_QUEUE, DELAY_EXCHANGE, supplier.get()));
+        threadPoolUtil.execute(() -> rabbitTemplate.convertSendAndReceive(DELAY_EXCHANGE, DELAY_ROUTINGKEY, supplier.get()));
     }
 
     @Override
@@ -47,9 +47,9 @@ public abstract class AbstractAutoInitQueueBeanFactory implements AutoInitQueueB
     @Override
     public void setEnvironment(Environment environment) {
         String MQ_PREFIX = MQ_QUEUE_PREFIX + PARTITION + environment.getProperty("spring.application.name") + PARTITION;
-        QUEUE = MQ_PREFIX + getExchangeName();
-        EXCHANGE = MQ_PREFIX + getRoutingKeyName();
-        DELAY_QUEUE = QUEUE + MQ_QUEUE_DELAY + getDelayTime() + TIME_UNIT;
+        EXCHANGE = MQ_PREFIX + getExchangeName();
+        ROUTINGKEY = MQ_PREFIX + getRoutingKeyName();
         DELAY_EXCHANGE = EXCHANGE + MQ_QUEUE_DELAY + getDelayTime() + TIME_UNIT;
+        DELAY_ROUTINGKEY = ROUTINGKEY + MQ_QUEUE_DELAY + getDelayTime() + TIME_UNIT;
     }
 }

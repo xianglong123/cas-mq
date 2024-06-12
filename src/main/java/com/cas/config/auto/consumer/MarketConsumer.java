@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 
 /**
@@ -21,8 +22,10 @@ public class MarketConsumer {
     public void handler(Message message, Channel channel) throws IOException {
         try {
             String id = new String(message.getBody());
-            System.out.println(id);
+            channel.getConnection().addShutdownListener(null);
+            System.out.println(id + "被消费");
         } finally {
+            System.out.println("消息被确认");
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
         }
     }

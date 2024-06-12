@@ -26,7 +26,7 @@ public interface AutoInitQueueBeanFactory {
     String getRoutingKeyName();
 
     /**
-     * 延迟多长时间 单位秒
+     * 延迟多长时间 单位毫秒
      * @return
      */
     Long getDelayTime();

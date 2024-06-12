@@ -20,8 +20,4 @@ public class TestBusinessQueue extends AbstractAutoInitQueueBeanFactory{
         return "test";
     }
 
-    @Override
-    public Long getDelayTime() {
-        return 30000L;
-    }
 }

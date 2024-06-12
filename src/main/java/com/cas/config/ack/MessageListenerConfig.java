@@ -1,8 +1,11 @@
 package com.cas.config.ack;
 
 import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +23,11 @@ public class MessageListenerConfig {
     @Autowired
     private MyAckReceiver myAckReceiver;//消息接收处理类
 
-    @Bean
+//    @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
-        container.setConcurrentConsumers(1);
-        container.setMaxConcurrentConsumers(1);
+        container.setConcurrentConsumers(10);
+        container.setMaxConcurrentConsumers(10);
         // RabbitMQ默认是自动确认，这里改为手动确认消息
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         //设置一个队列
@@ -40,6 +43,16 @@ public class MessageListenerConfig {
         container.setMessageListener(myAckReceiver);
 
         return container;
+    }
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.createListenerContainer().shutdown();
+        // 手动确认
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        return factory;
     }
 
 

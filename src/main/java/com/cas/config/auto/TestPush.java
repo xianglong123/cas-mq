@@ -15,10 +15,12 @@ public class TestPush {
 
     @PostConstruct
     public void init() {
-        SyncQyMessageBO bo = new SyncQyMessageBO();
-        bo.setId("123");
-        bo.setName("456");
-        testBusinessQueue.pushDelayMessage(() -> JSONObject.toJSONString(bo));
+        for (int i = 0; i <= 10; i ++) {
+            SyncQyMessageBO bo = new SyncQyMessageBO();
+            bo.setId(String.valueOf(i));
+            bo.setName("456");
+            testBusinessQueue.pushMessage(() -> JSONObject.toJSONString(bo));
+        }
     }
 
 

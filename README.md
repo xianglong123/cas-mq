@@ -79,3 +79,11 @@
 
 [swagger增强](http://localhost:9000/doc.html#/home)   
 如果对您有用记得帮忙点star, 3QU
+
+
+-- Restarting Consumer@43770fd3: tags=[[amq.ctag-DJSUv9PVdJzAkP1UBmWSSg]], channel=Cached Rabbit Channel: AMQChannel(amqp://rabbitmq@10.10.5.17:5672//lemon,1918), conn: Proxy@7135ce0a Shared Rabbit Connection: SimpleConnection@66749eea [delegate=amqp://rabbitmq@10.10.5.17:5672//lemon, localPort= 42694], acknowledgeMode=MANUAL local queue size=0
+-- Restarting Consumer@3d288b4a: tags=[[amq.ctag-estQ_p88-mhrJh479PlKoA]], channel=Cached Rabbit Channel: AMQChannel(amqp://guest@127.0.0.1:5672/,11),             conn: Proxy@61ca30f7 Shared Rabbit Connection: SimpleConnection@52d53e2f [delegate=amqp://guest@127.0.0.1:5672/, localPort= 61140],           acknowledgeMode=AUTO local queue size=0
+-- Shutdown Signal: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - unknown delivery tag 1, class-id=60, method-id=80)
+-- Channel shutdown: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - unknown delivery tag 1, class-id=60, method-id=80)
+
+重复请求
