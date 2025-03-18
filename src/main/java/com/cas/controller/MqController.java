@@ -1,6 +1,9 @@
 package com.cas.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.cas.config.auto.bo.SyncQyMessageBO;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static com.cas.config.dealy.RabbitMQConfig.DEAD_LETTER_EXCHANGE;
+import static com.cas.config.dealy.RabbitMQConfig.DEAD_LETTER_QUEUEA_ROUTING_KEY;
 
 /**
  * @author: xianglong[1391086179@qq.com]
@@ -96,5 +102,18 @@ public class MqController {
         return "ok";
     }
 
+    /**
+     * 测试信息转换器
+     * @return
+     */
+    @GetMapping("/TestMessageCover")
+    public String TestMessageCover() {
+        SyncQyMessageBO bo = new SyncQyMessageBO();
+        bo.setId("1111111");
+        bo.setName("456");
+//        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.convertAndSend(DEAD_LETTER_EXCHANGE, DEAD_LETTER_QUEUEA_ROUTING_KEY, JSONObject.toJSONString(bo));
+        return "ok";
+    }
 
 }

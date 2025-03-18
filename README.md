@@ -87,3 +87,39 @@
 -- Channel shutdown: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - unknown delivery tag 1, class-id=60, method-id=80)
 
 重复请求
+
+### 手动确认 和 主动确认 都配置的话，会出现下面的问题（同一个tagID被重复确认）
+```
+{"id":"2","name":"456"}被消费
+消息被确认
+{"id":"0","name":"456"}被消费
+消息被确认
+{"id":"4","name":"456"}被消费
+消息被确认
+{"id":"3","name":"456"}被消费
+消息被确认
+{"id":"1","name":"456"}被消费
+消息被确认
+2025-03-18 16:47:17.149 ERROR 92608 --- [ 127.0.0.1:5673] o.s.a.r.c.CachingConnectionFactory       : Shutdown Signal: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - unknown delivery tag 1, class-id=60, method-id=80)
+2025-03-18 16:47:17.160  INFO 92608 --- [           main] com.cas.CasMqApplication                 : Started CasMqApplication in 2.437 seconds (JVM running for 2.957)
+2025-03-18 16:47:18.154  INFO 92608 --- [ntContainer#0-1] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@7f9e8421: tags=[[amq.ctag-Jz3pBbjvWAyWhTIDWZ99eA]], channel=Cached Rabbit Channel: AMQChannel(amqp://guest@127.0.0.1:5673/,6), conn: Proxy@4c5bca15 Shared Rabbit Connection: SimpleConnection@5341961c [delegate=amqp://guest@127.0.0.1:5673/, localPort= 62418], acknowledgeMode=AUTO local queue size=0
+{"id":"0","name":"456"}被消费
+消息被确认
+{"id":"4","name":"456"}被消费
+消息被确认
+{"id":"3","name":"456"}被消费
+消息被确认
+{"id":"1","name":"456"}被消费
+消息被确认
+2025-03-18 16:47:18.165 ERROR 92608 --- [ 127.0.0.1:5673] o.s.a.r.c.CachingConnectionFactory       : Shutdown Signal: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - unknown delivery tag 1, class-id=60, method-id=80)
+2025-03-18 16:47:19.167  INFO 92608 --- [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@183f0040: tags=[[amq.ctag-BOwASIRhXOdxIznIuUFJBA]], channel=Cached Rabbit Channel: AMQChannel(amqp://guest@127.0.0.1:5673/,9), conn: Proxy@4c5bca15 Shared Rabbit Connection: SimpleConnection@5341961c [delegate=amqp://guest@127.0.0.1:5673/, localPort= 62418], acknowledgeMode=AUTO local queue size=0
+{"id":"4","name":"456"}被消费
+消息被确认
+{"id":"3","name":"456"}被消费
+消息被确认
+{"id":"1","name":"456"}被消费
+消息被确认
+2025-03-18 16:47:19.178 ERROR 92608 --- [ 127.0.0.1:5673] o.s.a.r.c.CachingConnectionFactory       : Shutdown Signal: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - unknown delivery tag 1, class-id=60, method-id=80)
+2025-03-18 16:47:20.181  INFO 92608 --- [ntContainer#0-3] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@1a4b99d3: tags=[[amq.ctag-Pw6FOi8ExqkHeq7h7kRT5w]], channel=Cached Rabbit Channel: AMQChannel(amqp://guest@127.0.0.1:5673/,9), conn: Proxy@4c5bca15 Shared Rabbit Connection: SimpleConnection@5341961c [delegate=amqp://guest@127.0.0.1:5673/, localPort= 62418], acknowledgeMode=AUTO local queue size=0
+{"id":"3","name":"456"}被消费
+```

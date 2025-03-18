@@ -1,5 +1,7 @@
 package com.cas.config.dealy;
 
+import com.alibaba.fastjson.JSON;
+import com.cas.config.auto.bo.SyncQyMessageBO;
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +25,15 @@ public class DeadLetterQueueConsumer {
     @RabbitListener(queues = DEAD_LETTER_QUEUEA_NAME)
     public void receiveA(Message message, Channel channel) throws IOException {
         String msg = new String(message.getBody());
+
+        SyncQyMessageBO syncQyMessageBO = JSON.parseObject(msg, SyncQyMessageBO.class);
+
         log.info("当前时间：{},死信队列A收到消息：{}", new Date().toString(), msg);
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        try {
+
+        } finally {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        }
     }
 
     @RabbitListener(queues = DEAD_LETTER_QUEUEB_NAME)

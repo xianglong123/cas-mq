@@ -5,7 +5,7 @@ spring:
     name: cas-mq
   rabbitmq:
     host: 127.0.0.1 # 用户名
-    port: 5672      # port
+    port: 5673      # port
     username: guest # 用户名
     password: guest # 密码
     virtual-host: / # 指定连接到broker的Virtual host.
