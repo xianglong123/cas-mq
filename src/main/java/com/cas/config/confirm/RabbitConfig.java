@@ -10,6 +10,14 @@ import org.springframework.context.annotation.Configuration;
  * @Author : JCccc
  * @CreateTime : 2019/9/3
  * @Description : 生产者用
+ *
+ * 用起来比较鸡肋，类似一个补偿机智
+ * 配置见：publisherReturns 和 publisher-confirm-type
+ *
+ * 性能影响：
+ * 启用这些选项可能会增加一定的性能开销，特别是在高并发场景下。
+ * 根据实际需求权衡是否启用以及选择合适的模式。
+ *
  **/
 //@Configuration
 public class RabbitConfig {

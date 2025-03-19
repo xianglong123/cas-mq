@@ -24,13 +24,10 @@ public class DeadLetterQueueConsumer {
 
     @RabbitListener(queues = DEAD_LETTER_QUEUEA_NAME)
     public void receiveA(Message message, Channel channel) throws IOException {
-        String msg = new String(message.getBody());
-
-        SyncQyMessageBO syncQyMessageBO = JSON.parseObject(msg, SyncQyMessageBO.class);
-
-        log.info("当前时间：{},死信队列A收到消息：{}", new Date().toString(), msg);
         try {
-
+            String msg = new String(message.getBody());
+            log.info("当前时间：{},死信队列A收到消息：{}", new Date().toString(), msg);
+            SyncQyMessageBO syncQyMessageBO = JSON.parseObject(msg, SyncQyMessageBO.class);
         } finally {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         }
