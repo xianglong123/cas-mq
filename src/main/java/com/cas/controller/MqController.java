@@ -111,7 +111,7 @@ public class MqController {
         SyncQyMessageBO bo = new SyncQyMessageBO();
         bo.setId("1111111");
         bo.setName("456");
-//        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         rabbitTemplate.convertAndSend(DEAD_LETTER_EXCHANGE, DEAD_LETTER_QUEUEA_ROUTING_KEY, JSONObject.toJSONString(bo));
         return "ok";
     }

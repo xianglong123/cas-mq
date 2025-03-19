@@ -1,5 +1,6 @@
 package com.cas.config.ack;
 
+import com.cas.handler.CustomErrorHandler;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -9,6 +10,8 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
 
 import static com.cas.config.dealy.RabbitMQConfig.DEAD_LETTER_QUEUEA_NAME;
 
@@ -24,6 +27,8 @@ public class MessageListenerConfig {
     private CachingConnectionFactory connectionFactory;
     @Autowired
     private MyAckReceiver myAckReceiver;//消息接收处理类
+    @Resource
+    private CustomErrorHandler customErrorHandler;
 
     /**
      * 这里的配置类似于没有注解的情况下可以采用这类方式，创建消费容器。可以针对不同的容器采用更细粒度的配置
@@ -67,7 +72,7 @@ public class MessageListenerConfig {
         // 下面这个信息转换器作用是主动帮你做序列化的操作， 不要和手动序列化公用，不然消费者那里会出问题，不推荐使用全局转换器
         // todo 不推荐使用下面的转换器
         // factory.setMessageConverter(new Jackson2JsonMessageConverter());
-
+//        factory.setErrorHandler(null);
         return factory;
     }
 
